@@ -1,0 +1,35 @@
+{
+  "name": "botine-server",
+  "version": "1.0.0",
+  "description": "Server to provide agents, tools and context for a AI bot connected to Zoho Cliq.",
+  "license": "ISC",
+  "author": "Mathieu Balland",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "coverage": "vitest run --coverage",
+    "dev": "tsx watch src/index.ts",
+    "format": "npx oxfmt",
+    "lint": "npx oxlint",
+    "serve": "node dist/index.js",
+    "start": "tsx src/index.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-slow-down": "^3.1.0",
+    "marked": "^18.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "@vitest/coverage-v8": "^4.1.5",
+    "oxfmt": "^0.45.0",
+    "oxlint": "^1.60.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.5"
+  }
+}

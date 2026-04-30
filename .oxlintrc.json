@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "pedantic": "off",
+    "perf": "warn",
+    "style": "error",
+    "restriction": "error",
+    "nursery": "off"
+  },
+  "rules": {
+    "eslint/func-style": ["error", "declaration"],
+    "eslint/id-length": ["error", { "checkGeneric": false }],
+    "eslint/max-params": ["error", { "max": 4 }],
+    "eslint/no-console": "off",
+    "eslint/no-magic-numbers": "off",
+    "eslint/no-ternary": "off",
+    "eslint/no-undefined": "off",
+    "eslint/no-use-before-define": ["error", { "functions": false }],
+    "oxc/no-async-await": "off",
+    "oxc/no-async-endpoint-handlers": "off"
+  },
+  "overrides": [
+    {
+      "files": ["test/**"],
+      "plugins": ["vitest"],
+      "rules": {
+        "eslint/id-length": "off",
+        "vitest/no-importing-vitest-globals": "off",
+        "vitest/prefer-called-times": "off"
+      }
+    }
+  ],
+  "settings": {
+    "jsdoc": {
+      "ignorePrivate": false,
+      "ignoreInternal": false,
+      "ignoreReplacesDocs": true,
+      "overrideReplacesDocs": true,
+      "augmentsExtendsReplacesDocs": false,
+      "implementsReplacesDocs": false,
+      "exemptDestructuredRootsFromChecks": false,
+      "tagNamePreference": {}
+    },
+    "vitest": {
+      "typecheck": false
+    }
+  },
+  "env": {
+    "builtin": true
+  },
+  "globals": {},
+  "ignorePatterns": ["dist/", "node_modules/"]
+}
