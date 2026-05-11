@@ -61,16 +61,18 @@ test("simple list should return a list slide", () => {
   * item 2
   * item 3`;
   const message = convertResponse(response);
-  expect(message).toBe(JSON.stringify({
-    card: { theme: "modern-inline" as const },
-    slides: [
-      {
-        data: ["item 1", "item 2", "item 3"],
-        type: "list",
-      },
-    ],
-    text: "My list:",
-  }));
+  expect(message).toBe(
+    JSON.stringify({
+      card: { theme: "modern-inline" as const },
+      slides: [
+        {
+          data: ["item 1", "item 2", "item 3"],
+          type: "list",
+        },
+      ],
+      text: "My list:",
+    }),
+  );
 });
 
 test("mutliple paragraphs should return the same text", () => {
@@ -91,28 +93,30 @@ test("simple table should return a table item", () => {
   | Cell 3   | Cell 4   |
   `;
   const message = convertResponse(response);
-  expect(message).toBe(JSON.stringify({
-    card: { theme: "modern-inline" as const },
-    slides: [
-      {
-        data: {
-          headers: ["Header 1", "Header 2"],
-          rows: [
-            {
-              "Header 1": "Cell 1",
-              "Header 2": "Cell 2",
-            },
-            {
-              "Header 1": "Cell 3",
-              "Header 2": "Cell 4",
-            },
-          ],
+  expect(message).toBe(
+    JSON.stringify({
+      card: { theme: "modern-inline" as const },
+      slides: [
+        {
+          data: {
+            headers: ["Header 1", "Header 2"],
+            rows: [
+              {
+                "Header 1": "Cell 1",
+                "Header 2": "Cell 2",
+              },
+              {
+                "Header 1": "Cell 3",
+                "Header 2": "Cell 4",
+              },
+            ],
+          },
+          type: "table",
         },
-        type: "table",
-      },
-    ],
-    text: "My table:",
-  }));
+      ],
+      text: "My table:",
+    }),
+  );
 });
 
 test("paragraph after list should be added as text slide", () => {
@@ -122,20 +126,22 @@ test("paragraph after list should be added as text slide", () => {
 
   The next paragraph.`;
   const message = convertResponse(response);
-  expect(message).toBe(JSON.stringify({
-    card: { theme: "modern-inline" as const },
-    slides: [
-      {
-        data: ["item 1", "item 2"],
-        type: "list",
-      },
-      {
-        data: "  The next paragraph.",
-        type: "text",
-      },
-    ],
-    text: "My list:",
-  }));
+  expect(message).toBe(
+    JSON.stringify({
+      card: { theme: "modern-inline" as const },
+      slides: [
+        {
+          data: ["item 1", "item 2"],
+          type: "list",
+        },
+        {
+          data: "  The next paragraph.",
+          type: "text",
+        },
+      ],
+      text: "My list:",
+    }),
+  );
 });
 
 test(`br should be returned as \n`, () => {

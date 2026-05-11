@@ -3,6 +3,7 @@
 AI Assistant using Zoho Cliq as channel, Venice AI as agent and Brave Search API as web search tool.
 
 ## Prerequisites
+
 - Node.js
 - PM2 installed globally (`npm install pm2 -g`)
 
@@ -38,16 +39,17 @@ Add the following code to the Message Handler:
 
 ```
 apiHeaders = Map();
-apiHeaders.put("Authorization","Bearer <Your Botine API key>");
+apiHeaders.put("Authorization","Bearer <Your Botine API Key>");
 apiHeaders.put("Content-Type","application/json");
 body_data = Map();
+body_data.put("chat-id",chat.get("id"));
 body_data.put("message",message);
 apiResponse = invokeurl
 [
-	url :"https://<your url to the botine server>/api/v1/chat/"
-	type :POST
-	body:body_data.toString()
-	headers:apiHeaders
+  url :"https://<Your URL to Botine Server>/api/v1/chat/"
+  type :POST
+  body:body_data.toString()
+  headers:apiHeaders
 ];
 return apiResponse;
 ```

@@ -56,7 +56,7 @@ app.use("/", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.post("/api/v1/chat", async (req: Request, res: Response) => {
-  const message = await chat(config, req.body.message);
+  const message = await chat(req.body["chat-id"], config, req.body.message);
   res.send(message);
 });
 

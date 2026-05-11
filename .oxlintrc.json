@@ -14,6 +14,7 @@
     "eslint/func-style": ["error", "declaration"],
     "eslint/id-length": ["error", { "checkGeneric": false }],
     "eslint/max-params": ["error", { "max": 4 }],
+    "eslint/max-statements": ["error", { "max": 12 }],
     "eslint/no-console": "off",
     "eslint/no-magic-numbers": "off",
     "eslint/no-ternary": "off",
@@ -24,12 +25,14 @@
   },
   "overrides": [
     {
-      "files": ["test/**"],
+      "files": ["tests/**"],
       "plugins": ["vitest"],
       "rules": {
         "eslint/id-length": "off",
+        "eslint/max-statements": "off",
         "vitest/no-importing-vitest-globals": "off",
-        "vitest/prefer-called-times": "off"
+        "vitest/prefer-called-times": "off",
+        "vitest/prefer-to-be-truthy": "off"
       }
     }
   ],

@@ -1,5 +1,6 @@
 import { convertResponse, getOutputFormattingPrompt } from "./zoho-cliq.js";
 import { existsSync, readFileSync } from "node:fs";
+import { ChatHistory } from "./chat-history.js";
 import type { Config } from "./types.js";
 import { join } from "node:path";
 
@@ -19,14 +20,27 @@ function readSystemPrompt(): string | undefined {
   return readFileSync(systemFilePath, "utf8");
 }
 
-function buildMessages(message: string): UserMessage[] {
+async function buildMessages(chatId: string, message: string): Promise<UserMessage[]> {
   const messages: UserMessage[] = [];
 
+  // Insert the SYSTEM prompt
   const systemPrompt = (readSystemPrompt() || "") + getOutputFormattingPrompt();
 
   messages.push({ content: systemPrompt, role: "system" as const });
 
+  // Insert the chat history
+  const chatHistory = new ChatHistory();
+
+  const previousMessages = await chatHistory.getMessages(chatId);
+
+  for (const previousMessage of previousMessages) {
+    messages.push({ content: previousMessage.content, role: previousMessage.role });
+  }
+
+  // Insert the new message
   messages.push({ content: message, role: "user" as const });
+
+  chatHistory.addUserMessage(chatId, message);
 
   return messages;
 }
@@ -45,8 +59,8 @@ function generateFetchOptions(config: Config, messages: UserMessage[]): RequestI
   };
 }
 
-export async function chat(config: Config, message: string): Promise<string> {
-  const messages = buildMessages(message);
+export async function chat(chatId: string, config: Config, message: string): Promise<string> {
+  const messages = await buildMessages(chatId, message);
 
   const options = generateFetchOptions(config, messages);
 
@@ -60,7 +74,13 @@ export async function chat(config: Config, message: string): Promise<string> {
     return "error";
   }
 
-  const response = convertResponse(completion.choices[0].message.content);
+  const completionMessage = completion.choices[0].message;
+
+  const chatHistory = new ChatHistory();
+
+  chatHistory.addAssistantMessage(chatId, completionMessage.content);
+
+  const response = convertResponse(completionMessage.content);
 
   return response;
 }
